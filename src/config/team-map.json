@@ -1,0 +1,21 @@
+{
+  "maxUnits": 5,
+  "maxTurn": 20,
+  "turnIntervalMs": 500,
+  "unitActionIntervalMs": 1500,
+  "tileSize": 64,
+  "west": [
+    { "slot": 1, "file": "unit01.js", "job": "guardian", "initialPosition": { "x": 0, "y": 0 } },
+    { "slot": 2, "file": "unit02.js", "job": "soldier", "initialPosition": { "x": 0, "y": 0 } },
+    { "slot": 3, "file": "unit03.js", "job": "archer", "initialPosition": { "x": 0, "y": 0 } },
+    { "slot": 4, "file": "unit04.js", "job": "mage", "initialPosition": { "x": 0, "y": 0 } },
+    { "slot": 5, "file": "unit05.js", "job": "healer", "initialPosition": { "x": 0, "y": 0 } }
+  ],
+  "east": [
+    { "slot": 1, "file": "unit01.js", "job": "guardian", "initialPosition": { "x": 35, "y": 6 } },
+    { "slot": 2, "file": "unit02.js", "job": "soldier", "initialPosition": { "x": 33, "y": 7 } },
+    { "slot": 3, "file": "unit03.js", "job": "archer", "initialPosition": { "x": 31, "y": 5 } },
+    { "slot": 4, "file": "unit04.js", "job": "mage", "initialPosition": { "x": 29, "y": 10 } },
+    { "slot": 5, "file": "unit05.js", "job": "healer", "initialPosition": { "x": 27, "y": 4 } }
+  ]
+}

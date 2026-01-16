@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>タワーディフェンス対戦</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./styles.css?v=202510231710" />
+</head>
+<body>
+  <main id="app">
+    <section id="battle-container">
+      <canvas id="battle-canvas" width="1280" height="576"></canvas>
+      <section id="log-panel">
+        <h2>イベントログ</h2>
+        <div id="log-list"></div>
+      </section>
+    </section>
+
+    <section id="controls">
+      <div class="control-row">
+        <div class="buttons">
+          <button id="btn-start" disabled>戦闘開始</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="panels">
+      <aside id="unit-panel">
+        <h2>ユニット情報</h2>
+        <div class="unit-info">
+          <p>ユニットをクリックすると詳細が表示されます。</p>
+        </div>
+        <div id="unit-details"></div>
+      </aside>
+
+    </section>
+  </main>
+  <script type="module" src="./main.js?v=202510271728"></script>
+</body>
+</html>

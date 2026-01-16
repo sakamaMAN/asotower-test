@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap");
+
+:root {
+  font-family: "Noto Sans JP", sans-serif;
+  background: #10131a;
+  color: #e4e7ef;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+#app {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 8px;
+  padding: 12px;
+  height: 100%;
+  box-sizing: border-box;
+}
+#battle-container {
+  background: #181c24;
+  border: 1px solid #2d3342;
+  padding: 3px;
+  display: flex;
+}
+#controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#panels {
+  display: flex;
+  grid-template-columns: 260px 1fr;
+  gap: 12px;
+  height: 100%;
+}
+#unit-panel, #log-panel {
+  background: #181c24;
+  border: 1px solid #2d3342;
+  padding: 12px;
+  overflow: auto;
+}
+button, select, input {
+  background: #232b3a;
+  border: 1px solid #39445a;
+  color: inherit;
+  padding: 6px 12px;
+}
+button:hover, select:hover {
+  border-color: #4f5c76;
+}

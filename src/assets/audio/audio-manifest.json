@@ -1,0 +1,103 @@
+{
+  "bgm": {
+    "main_01": {
+      "path": "bgm/main_theme1.mp3",
+      "loop": true,
+      "title": "勇壮なる序章"
+    },
+    "main_02": {
+      "path": "bgm/main_theme2.mp3",
+      "loop": true,
+      "title": "静かな行進"
+    },
+    "main_03": {
+      "path": "bgm/main_theme3.mp3",
+      "loop": true,
+      "title": "嵐の予感"
+    },
+    "main_04": {
+      "path": "bgm/main_theme4.mp3",
+      "loop": true,
+      "title": "夕暮れの決意"
+    },
+    "main_05": {
+      "path": "bgm/main_theme5.mp3",
+      "loop": true,
+      "title": "決闘の刻"
+    },
+    "fanfare": {
+      "path": "bgm/fanfare_victory.mp3",
+      "loop": false
+    }
+  },
+  "sfx": {
+    "attack": "sfx/impact.mp3",
+    "skill": "sfx/skill_flash.mp3",
+    "hit_default": "sfx/hit_default.mp3",
+    "down_default": "sfx/down_default.mp3",
+    "super_heal": "sfx/super_heal.mp3",
+    "move": "sfx/move.mp3",
+    "monster_expire": "sfx/monster_expire.mp3",
+    "monster_down": "sfx/monster_down.mp3",
+    "engineer_explosion": "sfx/engineer_explosion.mp3",
+    "explosion_default": "sfx/explosion_default.mp3"
+  },
+  "jobs": {
+    "soldier": {
+      "hit": "jobs/soldier_hit.mp3",
+      "down": "jobs/soldier_down.mp3",
+      "skill": "jobs/soldier_skill.mp3"
+    },
+    "guardian": {
+      "hit": "jobs/guardian_hit.mp3",
+      "down": "jobs/guardian_down.mp3",
+      "skill": "jobs/guardian_skill.mp3"
+    },
+    "archer": {
+      "hit": "jobs/archer_hit.mp3",
+      "down": "jobs/archer_down.mp3",
+      "skill": "jobs/archer_skill.mp3"
+    },
+    "mage": {
+      "hit": "jobs/mage_hit.mp3",
+      "down": "jobs/mage_down.mp3",
+      "skill": "jobs/mage_skill.mp3"
+    },
+    "healer": {
+      "hit": "jobs/healer_hit.mp3",
+      "down": "jobs/healer_down.mp3",
+      "skill": "jobs/healer_skill.mp3"
+    },
+    "assassin": {
+      "hit": "jobs/assassin_hit.mp3",
+      "down": "jobs/assassin_down.mp3",
+      "skill": "jobs/assassin_skill.mp3"
+    },
+    "engineer": {
+      "hit": "jobs/engineer_hit.mp3",
+      "down": "jobs/engineer_down.mp3",
+      "skill": "jobs/engineer_skill.mp3",
+      "explode": "jobs/engineer_explode.mp3"
+    },
+    "summoner": {
+      "hit": "jobs/summoner_hit.mp3",
+      "down": "jobs/summoner_down.mp3",
+      "skill": "jobs/summoner_skill.mp3"
+    },
+    "scout": {
+      "hit": "jobs/scout_hit.mp3",
+      "down": "jobs/scout_down.mp3",
+      "skill": "jobs/scout_skill.mp3"
+    },
+    "sumo": {
+      "hit": "jobs/sumo_hit.mp3",
+      "down": "jobs/sumo_down.mp3",
+      "skill": "jobs/sumo_skill.mp3"
+    },
+    "lancer": {
+      "hit": "jobs/lancer_hit.mp3",
+      "down": "jobs/lancer_down.mp3",
+      "skill": "jobs/lancer_skill.mp3"
+    }
+  }
+}

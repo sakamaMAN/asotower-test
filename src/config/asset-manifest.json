@@ -1,0 +1,111 @@
+{
+  "basePath": "./assets/images",
+  "castles": {
+    "west": {
+      "default": "castle/fort_west.png",
+      "damaged": "castle/fort_west_damaged.png"
+    },
+    "east": {
+      "default": "castle/fort_east.png",
+      "damaged": "castle/fort_east_damaged.png"
+    }
+  },
+  "map": {
+    "ground": "map/ground.png",
+    "path": "map/path.png",
+    "magefire": "map/magefire.png",
+    "wall": {
+      "intact": "map/wall_intact.png",
+      "damaged": "map/wall_damaged.png"
+    }
+  },
+  "effects": {
+    "skill_flash": "sfx/skill_flash.png",
+    "impact": "sfx/impact.png"
+  },
+  "ui": {
+    "button": {
+      "play": "ui/button_play.png",
+      "pause": "ui/button_pause.png",
+      "step": "ui/button_step.png"
+    },
+    "hp_bar": {
+      "bg": "ui/hp_bar_bg.png",
+      "fill": "ui/hp_bar_fill.png"
+    },
+    "skill_icon": "ui/skill_icon.png"
+  },
+  "jobs": {
+    "monster": {
+      "default": "jobs/monster.png",
+      "attack": "jobs/monster_attack.png",
+      "smoke": "jobs/monster_smoke.png"
+    },
+    "soldier": {
+      "default": "jobs/soldier.png",
+      "attack": "jobs/soldier_attack.png",
+      "skill": "jobs/soldier_skill.png",
+      "win": "jobs/soldier_glad.png"
+    },
+    "lancer": {
+      "default": "jobs/lancer.png",
+      "attack": "jobs/lancer_attack.png",
+      "skill": "jobs/lancer_skill.png",
+      "win": "jobs/lancer_glad.png"
+    },
+    "archer": {
+      "default": "jobs/archer.png",
+      "attack": "jobs/archer_attack.png",
+      "skill": "jobs/archer_skill.png",
+      "win": "jobs/archer_glad.png"
+    },
+    "mage": {
+      "default": "jobs/mage.png",
+      "attack": "jobs/mage_attack.png",
+      "skill": "jobs/mage_skill.png",
+      "win": "jobs/mage_glad.png"
+    },
+    "healer": {
+      "default": "jobs/healer.png",
+      "attack": "jobs/healer_attack.png",
+      "skill": "jobs/healer_skill.png",
+      "win": "jobs/healer_glad.png"
+    },
+    "guardian": {
+      "default": "jobs/guardian.png",
+      "attack": "jobs/guardian_attack.png",
+      "skill": "jobs/guardian_skill.png",
+      "win": "jobs/guardian_glad.png"
+    },
+    "assassin": {
+      "default": "jobs/assassin.png",
+      "attack": "jobs/assassin_attack.png",
+      "skill": "jobs/assassin_skill.png",
+      "win": "jobs/assassin_glad.png"
+    },
+    "engineer": {
+      "default": "jobs/engineer.png",
+      "attack": "jobs/engineer_attack.png",
+      "skill": "jobs/engineer_skill.png",
+      "win": "jobs/engineer_glad.png"
+    },
+    "summoner": {
+      "default": "jobs/summoner.png",
+      "attack": "jobs/summoner_attack.png",
+      "skill": "jobs/summoner_skill.png",
+      "win": "jobs/summoner_glad.png"
+    },
+    "scout": {
+      "default": "jobs/scout.png",
+      "attack": "jobs/scout_attack.png",
+      "skill": "jobs/scout_skill.png",
+      "win": "jobs/scout_glad.png"
+    },
+    "sumo": {
+      "default": "jobs/sumo.png",
+      "attack": "jobs/sumo_attack.png",
+      "skill": "jobs/sumo_skill.png",
+      "win": "jobs/sumo_glad.png"
+    }
+  }
+}
