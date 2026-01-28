@@ -1,40 +1,53 @@
 import * as utils from "../../shared/unit-utils.js";
 
+// 汎用最強 - 第1タンク（防御壁）
 export function init() {
   return {
-    job: "sumo",
-    name: "猪突猛進",
+    job: "guardian",
+    name: "鉄壁・雷電",
     initialPosition: {
       relativeTo: "allyCastle",
       x: 13,
-      y: -2
+      y: 1
     },
-    bonus: { atk: 3, def: 2, spd: 2, hit: 2, hp: 1 }, // 合計10
+    bonus: { atk: 0, def: 6, spd: 0, hit: 0, hp: 4 }, // 防御最優先
   };
 }
 
-// どこに移動するか決める（最も近い敵がいればその座標、いなければ敵城）
+// 最前線で敵を引きつける、敵が少なければ城へ
 export function moveTo(turn, enemies, allies, enemyCastle, allyCastle, self) {
-  // 猪突猛進：敵がいれば無条件で突進、いなければ敵城へ
-  var targetX = self.position.x;
-  var targetY = self.position.y;
+  // 前衛が離れすぎていれば合流する
+  if (allies.length > 0) {
+    var anchor = utils.findNearest(self, allies);
+    if (anchor && anchor.id !== self.id) {
+      var distToAnchor = utils.distanceBetween(self.position, anchor.position);
+      if (distToAnchor > 8) {
+        return { x: anchor.position.x, y: anchor.position.y };
+      }
+    }
+  }
 
   if (enemies.length > 0) {
     var nearest = utils.findNearest(self, enemies);
-    targetX = nearest.position.x;
-    targetY = nearest.position.y;
-  } else if (enemyCastle) {
-    targetX = enemyCastle.x;
-    targetY = enemyCastle.y;
+    return { x: nearest.position.x, y: nearest.position.y };
   }
-
-  return { x: targetX, y: targetY };
+  return { x: enemyCastle.x, y: enemyCastle.y };
 }
 
-// 攻撃対象と方法を決める（射程内の敵がいれば最初の1体を通常攻撃）
+// フォートレスで防御を上げつつ前線維持
 export function attack(turn, inRangeEnemies, self) {
+  // 敵が射程内にいない場合のみ城を攻撃
+  if (inRangeEnemies.length === 0 && utils.isEnemyCastleInRange(self)) {
+    return { target: null, method: "attackCastle" };
+  }
+
   if (inRangeEnemies.length > 0) {
-    var target = inRangeEnemies[0];
+    var target = utils.findNearest(self, inRangeEnemies);
+
+    // 複数の敵がいればスキルで範囲攻撃＋押し戻し
+    if (!utils.hasUsedSkill(self)) {
+      return { target: target, method: "skill" };
+    }
     return { target: target, method: "normal" };
   }
   return null;

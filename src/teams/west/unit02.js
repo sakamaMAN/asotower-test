@@ -1,48 +1,57 @@
 import * as utils from "../../shared/unit-utils.js";
 
+// 火力重視 - 暗殺者（後衛狙い）
 export function init() {
   return {
-    job: "guardian",
-    name: "スキルくん",
+    job: "assassin",
+    name: "影刃・伊達",
     initialPosition: {
       relativeTo: "allyCastle",
-      x: 13,
-      y: -1
+      x: 12,
+      y: -4
     },
-    bonus: { atk: 3, def: 2, spd: 2, hit: 2, hp: 1 }, // 合計10
+    bonus: { atk: 5, def: 0, spd: 4, hit: 1, hp: 0 },
   };
 }
 
-// どこに移動するか決める（最も近い敵がいればその座標、いなければ敵城）
+// 後衛職を優先的に狙う
 export function moveTo(turn, enemies, allies, enemyCastle, allyCastle, self) {
-  // スキルくん：敵がいれば無条件で突進、いなければ敵城へ
-  var targetX = self.position.x;
-  var targetY = self.position.y;
-
   if (enemies.length > 0) {
-    var nearest = utils.findNearest(self, enemies);
-    targetX = nearest.position.x;
-    targetY = nearest.position.y;
-  } else if (enemyCastle) {
-    targetX = enemyCastle.x;
-    targetY = enemyCastle.y;
+    var targets = ["healer", "archer", "mage", "engineer", "summoner"];
+    for (var i = 0; i < targets.length; i++) {
+      var found = utils.getUnitsByJob(enemies, targets[i]);
+      if (found.length > 0) {
+        return { x: found[0].position.x, y: found[0].position.y };
+      }
+    }
+    var farthest = utils.findFarthestEnemyPosition(self, enemies);
+    if (farthest) return { x: farthest.x, y: farthest.y };
   }
-
-  return { x: targetX, y: targetY };
+  return { x: enemyCastle.x, y: enemyCastle.y };
 }
 
-// 攻撃対象と方法を決める（射程内の敵がいれば最初の1体を通常攻撃）
+// シャドウステップで一気に削る
 export function attack(turn, inRangeEnemies, self) {
-  // スキルくん：射程内の敵がいれば、スキル使用可能ならスキル攻撃、使用済みなら通常攻撃
+  if (inRangeEnemies.length === 0 && utils.isEnemyCastleInRange(self)) {
+    return { target: null, method: "attackCastle" };
+  }
+
   if (inRangeEnemies.length > 0) {
-    if( utils.hasUsedSkill(self) == false ) {
-      // スキル使用可能なら最初の敵にスキル攻撃
-      return { target: inRangeEnemies[0], method: "skill" };
-    } else {
-      // スキル使用済みなら通常攻撃
-      var target = inRangeEnemies[0];
-      return { target: target, method: "normal" };
+    var targets = ["healer", "archer", "mage", "engineer", "summoner"];
+    for (var i = 0; i < targets.length; i++) {
+      var found = utils.getUnitsByJob(inRangeEnemies, targets[i]);
+      if (found.length > 0) {
+        if (!utils.hasUsedSkill(self)) {
+          return { target: found[0], method: "skill" };
+        }
+        return { target: found[0], method: "normal" };
+      }
     }
+    var target = utils.getLowestHpEnemyInRange(self) || inRangeEnemies[0];
+    if (!utils.hasUsedSkill(self)) {
+      return { target: target, method: "skill" };
+    }
+    return { target: target, method: "normal" };
   }
   return null;
 }

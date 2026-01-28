@@ -1,35 +1,84 @@
 import * as utils from "../../shared/unit-utils.js";
 
+// 回復役 - 射程外退避ヒーラー
 export function init() {
   return {
-    job: "guardian",
-    name: "城突撃隊",
+    job: "healer",
+    name: "神医・お藤",
     initialPosition: {
       relativeTo: "allyCastle",
-      x: 7,
+      x: 6,
       y: -3
     },
-    bonus: { atk: 3, def: 2, spd: 2, hit: 2, hp: 1 }, // 合計10
+    bonus: { atk: 0, def: 3, spd: 5, hit: 0, hp: 2 },
   };
 }
 
-// どこに移動するか決める（最も近い敵がいればその座標、いなければ敵城）
-export function moveTo(turn, enemies, allies, enemyCastle, allyCastle, self) {
-  // 城突撃隊：とにかく敵城へ
-  var targetX = enemyCastle.x;
-  var targetY = enemyCastle.y;
-
-  return { x: targetX, y: targetY };
+function getAdvanceSign(allyCastle, enemyCastle) {
+  if (!allyCastle || !enemyCastle) return 1;
+  return enemyCastle.x >= allyCastle.x ? 1 : -1;
 }
 
-// 攻撃対象と方法を決める（射程内の敵がいれば最初の1体を通常攻撃）
+function getRetreatPosition(self, allyCastle, enemyCastle, distance) {
+  var sign = getAdvanceSign(allyCastle, enemyCastle);
+  return { x: self.position.x - sign * distance, y: self.position.y };
+}
+
+function isInEnemyRange(self, enemy, padding) {
+  if (!enemy || !enemy.stats || typeof enemy.stats.range !== "number") return false;
+  var enemyRange = enemy.stats.range / 10;
+  var dist = utils.distanceBetween(self.position, enemy.position);
+  return dist <= enemyRange + padding;
+}
+
+function findNearestDamagedAlly(self) {
+  var damaged = utils.getDamagedAllies(self);
+  if (damaged.length === 0) return null;
+  return utils.findNearest(self, damaged);
+}
+
+function getSupportPosition(ally, allyCastle, enemyCastle) {
+  var offset = 4;
+  var sign = getAdvanceSign(allyCastle, enemyCastle);
+  return { x: ally.position.x - sign * offset, y: ally.position.y };
+}
+
+// 射程外を保ちながら味方の後方支援
+export function moveTo(turn, enemies, allies, enemyCastle, allyCastle, self) {
+  if (enemies.length > 0) {
+    var nearestEnemy = utils.findNearest(self, enemies);
+    if (nearestEnemy && isInEnemyRange(self, nearestEnemy, 2)) {
+      return getRetreatPosition(self, allyCastle, enemyCastle, 5);
+    }
+  }
+
+  var damaged = findNearestDamagedAlly(self);
+  if (damaged) {
+    return getSupportPosition(damaged, allyCastle, enemyCastle);
+  }
+
+  if (allies.length > 0) {
+    var nearestAlly = utils.findNearest(self, allies);
+    return getSupportPosition(nearestAlly, allyCastle, enemyCastle);
+  }
+
+  var sign = getAdvanceSign(allyCastle, enemyCastle);
+  return { x: allyCastle.x + sign * 6, y: allyCastle.y };
+}
+
+// 複数の味方が傷ついたらスキル回復
 export function attack(turn, inRangeEnemies, self) {
-  // 城突撃隊：敵城が射程内なら攻撃、いなければ射程内の敵を通常攻撃
-  if( utils.isEnemyCastleInRange(self)){
-    return { target: target, method: "attackCastle" };
-  }else if (inRangeEnemies.length > 0) {
-      var target = inRangeEnemies[0];
-      return { target: target, method: "normal" };
+  var damaged = utils.getDamagedAllies(self);
+  if (!utils.hasUsedSkill(self) && damaged.length >= 2) {
+    return { target: self, method: "skill" };
+  }
+
+  if (inRangeEnemies.length === 0 && utils.isEnemyCastleInRange(self)) {
+    return { target: null, method: "attackCastle" };
+  }
+
+  if (inRangeEnemies.length > 0) {
+    return { target: inRangeEnemies[0], method: "normal" };
   }
 
   return null;

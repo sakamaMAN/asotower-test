@@ -138,7 +138,7 @@ src/
   - unit-utils.js      : 汎用ユーティリティ（距離計算など）
   - unit-position.js   : initialPosition の forward/lateral→絶対座標変換
 - teams/
-  - east/, west/       : 各チームのユニットファイル（unit01.js 〜 unit10.js）
+  - east/, west/       : 各チームのユニットファイル（unit01.js 〜 unit05.js）
 
 ツール
 - tools/: テストスクリプト（ダメージ計算/移動シミュ等）
@@ -161,9 +161,9 @@ src/
 - src/config/team-map.json（チーム編成）
   | 設定名 | 説明 | 既知の想定デフォルト/例 |
   |---|---:|---|
-  | maxUnits | チームの最大ユニット数 | 10 |
+  | maxUnits | チームの最大ユニット数 | 5 |
   | turnIntervalMs | ターン間のインターバル（UI再描画待ち等） | 500 (ms) |
-  | unitActionIntervalMs | ユニット行動間インターバル | 1000 (ms) |
+  | unitActionIntervalMs | ユニット行動間インターバル | 1500 (ms) |
   | tileSize | 1マスあたりのピクセル | 64 |
   | west[] / east[] | スロット配列（{slot,file,job,initialPosition}） | 配列形式（各要素に file/job/initialPosition） |
 
@@ -212,11 +212,12 @@ B. VS Code Live Server（推奨：ローカルPCで実行する場合）
 
 学生に作成させるファイル
 - 各ユニットAI（1ユニット = 1ファイル）:
-  - 命名規則: `unitNN.js` （NN は 01〜10 など）
+  - 命名規則: `unitNN.js` （NN は 01〜05）
   - 配置先: `src/teams/east/` または `src/teams/west/`
   - 必須実装:
-    - export function init(state) { return { name: "...", memory: {} } }  // 初期化（name と memory optional）
-    - export function update(state) { return actionObject }  // 毎ターン呼ばれる（move/attack/useSkill 等）
+    - export function init(context) { return { job: "...", name: "...", initialPosition: {...}, bonus: {...} } }  // 初期化
+    - export function moveTo(turn, enemies, allies, enemyCastle, allyCastle, self) { return {x, y} }  // 移動先決定
+    - export function attack(turn, inRangeEnemies, self) { return {target, method} or null }  // 攻撃決定
   - 実行環境: `src/sdk/sandbox.js` により安全化される。グローバルの直接参照や危険APIは制限される。
 
 運営の配置手順
@@ -225,7 +226,7 @@ B. VS Code Live Server（推奨：ローカルPCで実行する場合）
 3. ブラウザでページを再読み込みし、`戦闘開始` をクリックして試合を実行
 
 検証（自動チェック）
-- `src/sdk/validator.js` がユニットの必須関数（init/update 等）や初期配置の重複、ボーナス設定の異常を検知し、ログに警告を出します。運営はログを確認して不正/非互換ユニットを除外可能です。
+- `src/sdk/validator.js` がユニットの必須関数（init/moveTo/attack）や初期配置の重複、ボーナス設定の異常（合計10超）を検知し、ログに警告を出します。運営はログを確認して不正/非互換ユニットを除外可能です。
 
 ---
 
@@ -235,7 +236,7 @@ B. VS Code Live Server（推奨：ローカルPCで実行する場合）
 
 1) 初期化フェーズ
 - main.js → loadTeams()（`src/engine/game-engine.js`）: team-map.json を読み、各ユニットファイルを dynamic import
-- validator.js により各ユニットの API（init/update）が検証
+- validator.js により各ユニットの API（init/moveTo/attack）が検証
 - createInitialState（`src/engine/state.js`）でユニット位置・城HP・ターンカウンタ等を初期化
 
 2) ターンループ（startMatch / tick）
@@ -244,7 +245,7 @@ B. VS Code Live Server（推奨：ローカルPCで実行する場合）
   - ユニットリストを行動順（速度降順、同速度時はスロット昇順）にソート
   - 各ユニットについて:
     1. `engine/jobs/<job>.processSkill`（パッシブや毎ターン処理）を走らせる（存在する場合）
-    2. サンドボックス内でユニットの `update(stateView)` を呼び出し、アクション（move/attack/useSkill 等）を取得
+    2. サンドボックス内でユニットの `moveTo()` を呼び出し移動先を取得、`attack()` を呼び出し攻撃アクションを取得
     3. `engine/actions.js` がコマンドを検証・実行（移動は `rules.js` で壁/衝突チェック、攻撃は射程とダメージ計算）
     4. 実行結果は `state` を更新し、必要なら `render/renderer.js` へエフェクト登録（`queueEffect` 等）
     5. ログへイベントを追加（攻撃結果、スキル使用、移動失敗、例外等）
@@ -263,8 +264,8 @@ Start ボタン → game-engine.startMatch()
   → sort units by speed
   → for each unit:
       - process job passive
-      - sandbox: call update()
-      - actions.execute(command)
+      - sandbox: call moveTo() → execute move
+      - sandbox: call attack() → execute attack
       - update state, queue effects, append log
   → check win/next turn
   ↓

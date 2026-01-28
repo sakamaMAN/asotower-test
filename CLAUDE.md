@@ -1,6 +1,12 @@
-# ASOTOWER ユニット編集ガイド
+# ASOTOWER AI 作業ガイド（毎回読む）
 
-このファイルは Claude がユニット編集を行う際に参照するためのガイドです。
+このファイルは Codex/Claude が作業開始時に必ず読む前提の指示書です。
+
+## 0. 必読ルール
+
+- すべてのタスクで最初にこのファイルを読む
+- ユニット編集が含まれる場合は、以降のルールとテンプレートに従う
+- 不明点（チームやユニット指定など）がある場合は、作業前に確認する
 
 ---
 
@@ -101,8 +107,8 @@ export function attack(turn, inRangeEnemies, self) {
 | `assassin` | シャドウステップ | 瞬時に移動して背後から大ダメージを与える |
 | `engineer` | タレット展開 | 数ターン広範囲の攻撃 |
 | `summoner` | チャンピオンコール | 強い魔物を召喚し、数ターン攻撃させる |
-| `scout` | リコンパス | 数ターンの間、敵から見えなくなる |
-| `sumo` | 土俵霊砕 | 周囲に大ダメージを与え、敵を押し戻す効果がある |
+| `scout` | リコンパルス | 数ターンの間、敵から見えなくなる |
+| `sumo` | 土俵轟砕 | 周囲に大ダメージを与え、敵を押し戻す効果がある |
 
 ### ジョブ相性
 
@@ -110,6 +116,7 @@ export function attack(turn, inRangeEnemies, self) {
 - lancer → guardian に強い / assassin に弱い
 - archer → summoner に強い / scout に弱い
 - mage → guardian に強い / archer に弱い
+- healer → mage に強い / assassin に弱い
 - guardian → soldier に強い / mage に弱い
 - assassin → lancer に強い / guardian に弱い
 - engineer → scout に強い / summoner に弱い
@@ -121,7 +128,7 @@ export function attack(turn, inRangeEnemies, self) {
 
 ## 5. ボーナスパラメータ
 
-合計 **10ポイント** を自由に振り分け：
+合計 **10ポイント以内** で自由に振り分け（10を超えるとエラー）：
 
 ```javascript
 bonus: { atk: 3, def: 2, spd: 2, hit: 2, hp: 1 }
@@ -289,7 +296,7 @@ export function attack(turn, inRangeEnemies, self) {
 
 ## 9. 編集時の注意点
 
-1. **bonus の合計は必ず10** にする
+1. **bonus の合計は10以内** にする（10を超えるとエラー）
 2. **job は上記11種類のキー** を正確に指定
 3. **import文** を忘れずに記述
 4. **return** を忘れずに（moveTo は座標、attack は対象と方法 or null）
