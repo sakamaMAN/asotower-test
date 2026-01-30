@@ -9,7 +9,7 @@ export function init() {
       x: 12,
       y: 0
     },
-    bonus: { atk: 2, def: 2, spd: 2, hit: 2, hp: 2 }, // 合計10
+    bonus: { attack: 0, defense: 5, speed: 2, range: 0, hp: 3 }, // 合計10
   };
 }
 

@@ -3,13 +3,13 @@ import * as utils from "../../shared/unit-utils.js";
 export function init() {
   return {
     job: "assassin",
-    name: "アサくん",
+    name: "asa1",
     initialPosition: {
       relativeTo: "allyCastle",
       x: 12,
       y: 2
     },
-    bonus: { atk: 2, def: 2, spd: 2, hit: 2, hp: 2 }, // 合計10
+    bonus: { attack: 8, defense: 2, speed: 0, range: 0, hp: 0 }, // 合計10
   };
 }
 
